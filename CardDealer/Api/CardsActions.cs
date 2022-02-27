@@ -7,11 +7,11 @@ namespace CardDealer.Api;
 
 public class CardsActions : ICardsActions
 {
-    private DefaultContext context;
+    private IContext context;
     private IDeckCreator creator;
     private IShuffleService shuffler;
 
-    public CardsActions(DefaultContext context, IShuffleService shuffler, IDeckCreator creator)
+    public CardsActions(IContext context, IShuffleService shuffler, IDeckCreator creator)
     {
         this.creator = creator;
         this.shuffler = shuffler;
@@ -20,28 +20,26 @@ public class CardsActions : ICardsActions
     
     public void CreateCardDeck(string name)
     {
-        if (context.Decks.Exists(x => x.Name == name))
+        if (context.Exist(name))
             throw new Exception("Already Created");
         var cards = creator.CreateCardSequence();
-        context.Decks.Add(new CardDeck(name, cards));
+        context.Add(new CardDeck(name, cards));
     }
 
     public void DeleteCardDeck(string name)
     {
-        var deck = context.Decks.Find(x => x.Name == name);
-        if (deck == null)
-            throw new Exception("Doesn't Exist");
-        context.Decks.Remove(deck);
+        var deck = context.Find(name);
+        context.Remove(deck);
     }
 
     public List<string> GetAllDecksNames()
     {
-        return context.Decks.Select(x => x.Name).ToList();
+        return context.FindAll();
     }
 
     public void ShuffleTheDeck(string name)
     {
-        var deck = context.Decks.Find(x => x.Name == name);
+        var deck = context.Find(name);
         if (deck == null)
             throw new Exception("Doesn't Exist");
         shuffler.Shuffle(deck);
@@ -49,7 +47,7 @@ public class CardsActions : ICardsActions
 
     public ICardDeck GetDeck(string name)
     {
-        var deck = context.Decks.Find(x => x.Name == name);
+        var deck = context.Find(name);
         if (deck == null)
             throw new Exception("Doesn't Exist");
         return deck;

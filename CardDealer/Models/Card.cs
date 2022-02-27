@@ -4,10 +4,10 @@ namespace CardDealer.Models;
 
 public class Card : ICard
 {
-    public Suits Suit { get; private set; }
-    public Ranks Rank { get; private set; }
+    public Enum Suit { get; private set; }
+    public Enum Rank { get; private set; }
 
-    public Card(Suits suit, Ranks value)
+    public Card(Enum suit, Enum value)
     {
         Suit = suit;
         Rank = value;

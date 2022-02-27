@@ -1,4 +1,6 @@
-﻿namespace CardDealer.Models;
+﻿using CardDealer.Models.Enums;
+
+namespace CardDealer.Models;
 
 public class CardDeck : ICardDeck
 {

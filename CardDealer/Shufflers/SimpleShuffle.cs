@@ -1,4 +1,5 @@
 ﻿using CardDealer.Models;
+using CardDealer.Models.Enums;
 
 namespace CardDealer.Shufflers;
 
